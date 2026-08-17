@@ -1,3 +1,6 @@
+0.5.6 (2026-08-17):
+ * Fix architecture detection on Windows ARM64
+
 0.5.5 (2026-01-23):
  * Fix `bug from previous release`__
 

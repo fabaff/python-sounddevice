@@ -48,7 +48,7 @@ Online documentation:
     https://python-sounddevice.readthedocs.io/
 
 """
-__version__ = '0.5.5'
+__version__ = '0.5.6'
 
 import atexit as _atexit
 import contextlib as _contextlib
