@@ -60,36 +60,7 @@ from ctypes.util import find_library as _find_library
 from _sounddevice import ffi as _ffi
 
 
-try:
-    for _libname in (
-            'portaudio',  # Default name on POSIX systems
-            'bin\\libportaudio-2.dll',  # DLL from conda-forge
-            'lib/libportaudio.dylib',  # dylib from anaconda
-            ):
-        _libname = _find_library(_libname)
-        if _libname is not None:
-            break
-    else:
-        raise OSError('PortAudio library not found')
-    _lib: ... = _ffi.dlopen(_libname)
-except OSError:
-    if _platform.system() == 'Darwin':
-        _libname = 'libportaudio.dylib'
-    elif _platform.system() == 'Windows':
-        if 'arm64' in _sysconfig.get_platform() or 'aarch64' in _sysconfig.get_platform():
-            _platform_suffix = 'arm64'
-        else:
-            _platform_suffix = _platform.architecture()[0]
-        if 'SD_ENABLE_ASIO' in _os.environ:
-            _libname = 'libportaudio' + _platform_suffix + '-asio.dll'
-        else:
-            _libname = 'libportaudio' + _platform_suffix + '.dll'
-    else:
-        raise
-    import _sounddevice_data
-    _libname = _os.path.join(
-        next(iter(_sounddevice_data.__path__)), 'portaudio-binaries', _libname)
-    _lib: ... = _ffi.dlopen(_libname)
+_lib: ... = _ffi.dlopen('@portaudio@')
 
 _sampleformats: ... = {
     'float32': _lib.paFloat32,
